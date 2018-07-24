@@ -1,0 +1,6 @@
+{
+    "name": "JVid - The best online video store!",
+    "mail": {
+        "host": "prod-mail-server"
+    }
+}

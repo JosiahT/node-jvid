@@ -4,7 +4,9 @@ const config = require('config');
 const helmet =  require('helmet');
 const morgan = require('morgan');
 const express = require('express');
-const genreRouter = require('./routes/genres');
+const mongoose = require('mongoose');
+const genres = require('./routes/genres');
+const customers = require('./routes/customers');
 const app = express();
 
 app.set('view engine', 'pug');
@@ -29,11 +31,17 @@ if(app.get('env') === 'development'){
     app.use(morgan('tiny')); //use different formats depending on your needs
     startupDebugger('Morgan enabled...');
 }
-dbDebugger('connected to the database...');
+
+mongoose.connect('mongodb://localhost/jvid-db')
+.then(() => dbDebugger('connected to the MongoDB...'))
+.catch(err => dbDebugger('Could not connect to MongoDB...', err));
+
 app.get('/', (req, res) => {
     res.render('index', { title: 'JVid', message: 'Hello World'});
     //res.send('Hello World');
-})
-app.use('/api/genres', genreRouter);
+});
+
+app.use('/api/genres', genres);
+app.use('/api/customers', customers);
 
 app.listen(PORT, () => console.log("Listening on PORT 3000...") );

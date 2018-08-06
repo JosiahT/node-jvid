@@ -1,13 +1,15 @@
 const { Rental } = require('../models/rental'); //use object destructuring
+const transaction = require('./transaction')
 class rentalService{
 
     constructor(){
     }
 
-    async create(_rental) {
+    async create(_rental, _movie) {
         const rental = new Rental(_rental);
         try {
-            return await rental.save();
+            await transaction.submitRental(rental, _movie);
+            return rental;
         }
         catch(ex){
             console.log(ex.message);

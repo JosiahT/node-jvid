@@ -16,11 +16,11 @@ class movieService{
     }
     
     async getAll() {
-        return Movie.find().populate('genre');
+        return Movie.find();
     }
     
     async get(_id) {
-        return Movie.findById(_id).populate('genre');
+        return Movie.findById(_id);
     }
     
     async update(_id, _movie) {

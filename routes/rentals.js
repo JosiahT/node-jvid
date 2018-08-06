@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const RentalService = require('../data-access/rentals');
 const MovieService = require('../data-access/movies');
-const CustomerService = require('../data-access/customers')
-const { validate } = require('../models/movie'); //object destruction
+const CustomerService = require('../data-access/customers');
+const transaction = require('../data-access/transaction');
+const { validate } = require('../models/rental'); //object destruction
+
 const rentalService = new RentalService();
 const movieService = new MovieService();
 const customerService = new CustomerService();
@@ -14,7 +16,7 @@ router.get('/', async(req, res) => {
 
 router.get('/:id', async(req, res) => {
     const rental = await rentalService.get(req.params.id);
-    if(!rental) return res.status(404).send("Movie was not found.");
+    if(!rental) return res.status(404).send("Rental was not found.");
     res.send(rental);
 });
 
@@ -29,23 +31,25 @@ router.post('/', async(req, res) => {
     if(!movie) return res.status(400).send('Invalid movie.');
 
     if(movie.numberInStock === 0) return res.status(400).send('Movie is out of stock.');
-
-    const rental = await rentalService.create({ 
-        customer: { //store only the properties we need
-            _id: customer._id,
-            name: customer.name,
-            isGold: customer.isGold,
-            phone: customer.phone
-        },
-        movie: {
-            _id: movie._id,
-            title: movie.title,
-            dailyRentalRate: movie.dailyRentalRate
-        } 
-    });
-    movie.numberInStock --;
-    movie.save();
-    res.send(rental);
+    try {
+        const rental = await rentalService.create({ 
+            customer: { //store only the properties we need
+                _id: customer._id,
+                name: customer.name,
+                isGold: customer.isGold,
+                phone: customer.phone
+            },
+            movie: {
+                _id: movie._id,
+                title: movie.title,
+                dailyRentalRate: movie.dailyRentalRate
+            } 
+        }, movie);
+        res.send(rental);
+    }
+    catch(ex) {
+        res.status(500).send("Something failed.");
+    }    
 });
 
 router.put('/:id', async(req, res) => {

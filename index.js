@@ -7,6 +7,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
+const movies = require('./routes/movies');
 const app = express();
 
 app.set('view engine', 'pug');
@@ -43,5 +44,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);
+app.use('/api/movies', movies);
 
 app.listen(PORT, () => console.log("Listening on PORT 3000...") );

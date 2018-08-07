@@ -7,6 +7,8 @@ const helmet =  require('helmet');
 const morgan = require('morgan');
 const express = require('express');
 const mongoose = require('mongoose');
+
+const users = require('./routes/users');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
 const movies = require('./routes/movies');
@@ -45,6 +47,7 @@ app.get('/', (req, res) => {
     //res.send('Hello World');
 });
 
+app.use('/api/users', users);
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);
 app.use('/api/movies', movies);

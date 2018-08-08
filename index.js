@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const express = require('express');
 const mongoose = require('mongoose');
 
+const auth = require('./routes/auth');
 const users = require('./routes/users');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
@@ -25,6 +26,10 @@ console.log(`pass: ${process.env.jvid_password}`);
 console.log(`app: ${app.get('env')}`);
 
 //configuration
+if(!config.get('jwtPrivateKey')) {
+    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+    process.exit(1); //exists the application with exit code (if code = 0  which means success and anything but 0 means failure)
+}
 console.log('Application Name: ' + config.get('name'));
 console.log('Mail Server: ' + config.get('mail.host'));
 //console.log('Mail Password: ' + config.get('mail.password')); //doesn't work
@@ -47,6 +52,7 @@ app.get('/', (req, res) => {
     //res.send('Hello World');
 });
 
+app.use('/api/auth', auth);
 app.use('/api/users', users);
 app.use('/api/genres', genres);
 app.use('/api/customers', customers);

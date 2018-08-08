@@ -1,4 +1,5 @@
 {
+    "jwtPrivateKey": "jvid_jwtPrivateKey",
     "mail": {
         "password": "jvid_password"
     }

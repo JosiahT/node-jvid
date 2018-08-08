@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const { User } = require('../models/user');
 class userService{
 
@@ -6,6 +7,8 @@ class userService{
 
     async create(_user) {
         const user = new User(_user);
+        const salt = await bcrypt.genSalt(10);
+        user.password =  await bcrypt.hash(user.password, salt);
         try {
             return await user.save();
         }

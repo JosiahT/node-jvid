@@ -1,3 +1,4 @@
 {
-    "name": "JVid"
+    "name": "JVid",
+    "jwtPrivateKey": ""
 }

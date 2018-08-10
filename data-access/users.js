@@ -1,14 +1,18 @@
-const bcrypt = require('bcrypt');
+
 const { User } = require('../models/user');
 class userService{
 
     constructor(){
     }
 
+    generateAuthToken(_user) {
+        const user = new User(_user);        
+        return user.generateAuthToken()
+    }
+
     async create(_user) {
         const user = new User(_user);
-        const salt = await bcrypt.genSalt(10);
-        user.password =  await bcrypt.hash(user.password, salt);
+        await user.hashPassword();
         try {
             return await user.save();
         }
@@ -23,7 +27,7 @@ class userService{
     }
     
     async get(_id) {
-        return await User.findById(_id);
+        return await User.findById(_id).select('-password');
     }
 
     async getByEmail(_email) {

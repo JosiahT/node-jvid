@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const router = require('express').Router();
 const UserService = require('../data-access/users');
 const { authenticate, validate } = require('../data-access/auth');
@@ -17,7 +15,7 @@ router.post('/', async(req, res) => {
     //bcrypt will get the salt from user password and use that to rehash the plain text password
     if(!validPassword) return res.status(400).send('Invalid email or password.');
     
-    const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+    const token = userService.generateAuthToken(user);
     res.send(token);
 });
 

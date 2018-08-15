@@ -8,6 +8,7 @@ const { validate } = require('../models/genre');
 const genreService = new GenreService();
 
 router.get('/', asyncMiddleware(async (req, res) => {
+    throw new Error('could not get the genres');
     const genres = await genreService.getAll();
     res.send(genres);
 }));

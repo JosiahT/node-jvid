@@ -1,5 +1,5 @@
 {
     "name": "JVid",
     "jwtPrivateKey": "",
-    "db": "mongodb://localhost:27017/jvid-db_tests"
+    "db": "mongodb://localhost:27017/jvid-db"
 }

@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  form#formLogin(name="login",method="post",action="/validate")
+    input#inputUserName(type="text", placeholder="username", name="username")
+    br
+    input#inputPassword(type="password", placeholder="password", name="password")
+    br
+    button#btnSubmit(type="submit") submit

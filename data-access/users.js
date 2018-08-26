@@ -7,7 +7,7 @@ class userService{
 
     generateAuthToken(_user) {
         const user = new User(_user);        
-        return user.generateAuthToken()
+        return user.generateAuthToken();
     }
 
     async create(_user) {

@@ -1,7 +1,8 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
+const moment = require('moment');
 
-const Rental = mongoose.model('Rental', new mongoose.Schema({
+let rentalSchema = new mongoose.Schema({
     customer: { 
         type: new mongoose.Schema({
             name: { 
@@ -50,7 +51,19 @@ const Rental = mongoose.model('Rental', new mongoose.Schema({
         type: Number,
         min: 0
     }
-}));
+});
+
+rentalSchema.methods.return = function() {
+    this.dateOfReturn = new Date(); 
+    
+    //this.rentalFee = Math.ceil((this.dateOfReturn - this.dateOfRental)/(1000 * 3600 * 24)) * this.movie.dailyRentalRate; 
+    const rentalDays = moment().diff(this.dateOfRental, 'days');
+    this.rentalFee = rentalDays * this.movie.dailyRentalRate;
+}
+
+const Rental = mongoose.model('Rental', rentalSchema);
+
+
     
 function validateRental(rental) {
     const schema = {

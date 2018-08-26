@@ -5,17 +5,16 @@ const CustomerService = require('../data-access/customers');
 const transaction = require('../data-access/transaction');
 const { validate } = require('../models/rental'); //object destruction
 
-const rentalService = new RentalService();
 const movieService = new MovieService();
 const customerService = new CustomerService();
 
 router.get('/', async(req, res) => {
-    const rentals = await rentalService.getAll();
+    const rentals = await RentalService.getAll();
     res.send(rentals);
 });
 
 router.get('/:id', async(req, res) => {
-    const rental = await rentalService.get(req.params.id);
+    const rental = await RentalService.get(req.params.id);
     if(!rental) return res.status(404).send("Rental was not found.");
     res.send(rental);
 });
@@ -32,7 +31,7 @@ router.post('/', async(req, res) => {
 
     if(movie.numberInStock === 0) return res.status(400).send('Movie is out of stock.');
     try {
-        const rental = await rentalService.create({ 
+        const rental = await RentalService.create({ 
             customer: { //store only the properties we need
                 _id: customer._id,
                 name: customer.name,
@@ -62,7 +61,7 @@ router.put('/:id', async(req, res) => {
     const movie = await movieService.get(req.body.movieId);
     if(!movie) return res.status(400).send('Invalid movie.');
 
-    const rental = await rentalService.update(req.params.id, { 
+    const rental = await RentalService.update(req.params.id, { 
         customer: { //store only the properties we need
             _id: customer._id,
             name: customer.name
@@ -77,7 +76,7 @@ router.put('/:id', async(req, res) => {
 });
 
 router.delete('/:id', async(req, res) => {
-    const rental = rentalService.remove(req.params.id);
+    const rental = await RentalService.remove(req.params.id);
     if(!rental) return res.status(404).send("Movie was not found.");
     res.send(rental);
 });

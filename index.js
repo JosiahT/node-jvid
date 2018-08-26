@@ -10,6 +10,10 @@ require('./startup/db')();
 require('./startup/config')(app);
 require('./startup/validation')();
 
+if(app.get('env') === 'production'){
+    require('./startup/prod')(app);
+}
+
 const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => winston.info(`Listening on PORT ${PORT}...`) );

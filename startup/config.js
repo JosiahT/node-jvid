@@ -11,6 +11,6 @@ module.exports = function(app) {
         throw new Error('FATAL ERROR: jwtPrivateKey is not defined.');//our global error handler will take care the rest
     }
     console.log('Application Name: ' + config.get('name'));
-    //console.log('Mail Server: ' + config.get('mail.host'));
-    //console.log('Mail Password: ' + config.get('mail.password')); //doesn't work
+    console.log('Mail Server: ' + config.get('mail.host'));
+    console.log('Mail Password: '+ config.get('mail.password'));
 }

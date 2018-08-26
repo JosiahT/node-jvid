@@ -5,7 +5,7 @@ module.exports = function auth(req, res, next) {//we use next to pass control to
     const token = req.header('x-auth-token');
     if(!token) return res.status(401).send('Access denied. No token provided.');
     try{
-        const decoded = jwt.verify(token, 'jwtPrivateKey'); //config.get('jwtPrivateKey')); 
+        const decoded = jwt.verify(token, config.get('jwtPrivateKey')); 
         req.user = decoded; //assign user property of the request the payload and pass to the next middleware
         next();
     } catch(ex){

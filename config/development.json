@@ -1,5 +1,6 @@
 {
     "name": "JVid - Development",
+    "db": "mongodb://localhost:27017/jvid-db",
     "mail": {
         "host": "dev-mail-server"
     }

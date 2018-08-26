@@ -26,7 +26,7 @@ let userSchema = new mongoose.Schema({
     isAdmin: Boolean
 });
 userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, 'jwtPrivateKey'); //config.get('jwtPrivateKey')); 
+    const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey')); 
     //replace user with this since the method is part of the userSchema object
     //it also means that we can't replace this function with an arrow function since this could change if we use the arrow function
     //arrow functions are useful for stand-alone functions not for methods of objects
